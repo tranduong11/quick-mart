@@ -1,0 +1,12 @@
+{
+  "txt_select_language": "Select Language",
+  "txt_password": "Password",
+  "txt_username": "Username",
+  "txt_home": "Home",
+  "txt_logout": "Logout",
+  "txt_search": "Search",
+  "txt_account": "Account",
+  "txt_system_error": "System Error!",
+  "txt_message1": "Message",
+  "txt_message": "Message"
+}
