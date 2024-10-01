@@ -11,7 +11,6 @@ class AppDecoration {
     borderRadius: BorderRadius.circular(12),
   );
   static BoxDecoration radiusBig = BoxDecoration(
-    color: AppColors.cBlue,
     borderRadius: BorderRadius.circular(24),
   );
   static BoxDecoration radiusBiggest = BoxDecoration(

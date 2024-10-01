@@ -1,29 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:quick_mart/consts/app_colors.dart';
 import 'package:quick_mart/consts/app_paths.dart';
-import 'package:quick_mart/frebase/firebase_auth/firebase_auth.dart';
-import 'package:quick_mart/models/entity/profile_object.dart';
-import 'package:quick_mart/screens/login_page/login_page.dart';
+import 'package:quick_mart/screens/profiles_page/profile_page_vm.dart';
 
-class ProfileHome extends StatefulWidget {
-  const ProfileHome({super.key});
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
 
   @override
-  State<ProfileHome> createState() => _ProfileHomeState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfileHomeState extends State<ProfileHome> {
-  bool light = true;
-
-  List<ProfileObject> listItemProduct = [
-    ProfileObject(
-      images: AppPath.ic_box,
-      title: 'Shipping Address',
-      icon: AppPath.ic_chevron,
-    ),
-  ];
-
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +21,7 @@ class _ProfileHomeState extends State<ProfileHome> {
         bottom: false,
         child: Stack(
           children: [
-            buildContainer(),
+            buildContainer(context),
             Container(
               margin: EdgeInsets.only(top: 110),
               width: double.infinity,
@@ -121,11 +110,9 @@ class _ProfileHomeState extends State<ProfileHome> {
                             scaleY: 0.55,
                             alignment: Alignment.center,
                             child: Switch(
-                              value: light,
+                              value: context.watch<ProfilePageVm>().light,
                               onChanged: (bool value) {
-                                setState(() {
-                                  light = value;
-                                });
+                                context.read<ProfilePageVm>().checkLight(value);
                               },
                               activeTrackColor: AppColors.cYanPrimary,
                               activeColor: AppColors.white,
@@ -148,7 +135,7 @@ class _ProfileHomeState extends State<ProfileHome> {
     );
   }
 
-  Row buildRowText(String title) {
+  Widget buildRowText(String title) {
     return Row(
       children: [
         SizedBox(width: 16),
@@ -191,89 +178,6 @@ class _ProfileHomeState extends State<ProfileHome> {
         SvgPicture.asset(action),
         SizedBox(width: 16),
       ],
-    );
-  }
-
-  Widget buildContainer() {
-    return Container(
-      width: double.infinity,
-      height: 134,
-      color: AppColors.cYanPrimary,
-      child: Row(
-        children: [
-          SizedBox(width: 16),
-          Image.asset(
-            AppPath.img_action_home,
-            width: 40,
-            height: 40,
-          ),
-          SizedBox(width: 8),
-          Container(
-            height: 40,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Ahmed Raza',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                    color: AppColors.white,
-                  ),
-                ),
-                Text(
-                  'ahmedraza@gmail.com',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12,
-                    color: AppColors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Spacer(),
-          GestureDetector(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text('Logout'),
-                    content: Text(
-                      'Sau khi đăng xuất tài khoản bạn đã đăng ký vẫn có thể truy cập lại ứng dụng.',
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text('Cancel'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          AuthLogin.instance.signOut();
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return LoginPage();
-                              },
-                            ),
-                          );
-                        },
-                        child: Text('Logout'),
-                      )
-                    ],
-                  );
-                },
-              );
-            },
-            child: SvgPicture.asset(AppPath.ic_logout),
-          ),
-          SizedBox(width: 16),
-        ],
-      ),
     );
   }
 }

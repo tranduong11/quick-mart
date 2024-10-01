@@ -1,9 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:quick_mart/consts/app_colors.dart';
+import 'package:quick_mart/consts/app_decoration.dart';
 import 'package:quick_mart/consts/app_paths.dart';
 import 'package:quick_mart/consts/app_routes.dart';
+import 'package:quick_mart/consts/app_text_style.dart';
+import 'package:quick_mart/screens/login_page/login_page_vm.dart';
+import 'package:quick_mart/screens/login_page/widgets/login_widget.dart';
+import 'package:quick_mart/widgets/app_text_filed/app_text_field.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,10 +18,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController ctr_email = TextEditingController(text: "a@gmail.com");
-  TextEditingController ctr_password = TextEditingController(text: "1234567");
-  bool password = true;
-  bool isLoading = false;
+  late LoginVm loginVm;
 
   @override
   void initState() {
@@ -24,9 +26,13 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    loginVm = Provider.of<LoginVm>(context);
+  }
+
+  @override
   void dispose() {
-    ctr_email.dispose();
-    ctr_password.dispose();
     super.dispose();
   }
 
@@ -44,26 +50,20 @@ class _LoginPageState extends State<LoginPage> {
                   SvgPicture.asset(AppPath.ic_onboard),
                   Text(
                     'uickMart',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                    style: AppTextStyle.textBig.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ],
               ),
               SizedBox(height: 24),
-              Text(
-                'Login',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.cBlack_50,
-                ),
-              ),
+              Text('Login', style: AppTextStyle.textBigSS),
               SizedBox(height: 6),
               Row(
                 children: [
                   Text(
                     'Already have an account?',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
+                    style: AppTextStyle.textMedium.copyWith(
                       color: AppColors.cGray,
                     ),
                   ),
@@ -76,8 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                     },
                     child: Text(
                       'Signup',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
+                      style: AppTextStyle.textSmall.copyWith(
                         color: AppColors.cYanPrimary,
                       ),
                     ),
@@ -87,62 +86,53 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 16),
               buildRichText('Email ', '*'),
               SizedBox(height: 8),
-              TextField(
-                textInputAction: TextInputAction.continueAction,
-                controller: ctr_email,
-                decoration: InputDecoration(
-                  enabledBorder: buildOutlineInputBorder(),
-                  focusedBorder: buildOutlineInputBorder(),
-                ),
+              AppTextField(
+                controller: loginVm.ctrEmail,
+                hintText: 'Enter email',
               ),
               SizedBox(height: 16),
               buildRichText('Password ', '*'),
               SizedBox(height: 8),
-              TextField(
-                obscureText: password,
-                controller: ctr_password,
-                onChanged: (pass) {
-                  setState(() {
-                    pass = ctr_password.text;
-                  });
-                },
-                textInputAction: TextInputAction.continueAction,
-                decoration: InputDecoration(
-                  suffixIcon: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        password = !password;
-                      });
-                    },
-                    child: Icon(password ? Icons.visibility_off : Icons.visibility),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1,
-                      color: AppColors.cGray_50,
+              Consumer<LoginVm>(
+                builder: (BuildContext context, value, Widget? child) {
+                  return AppTextField(
+                    controller: loginVm.ctrPassword,
+                    hintText: 'Enter password',
+                    hintPass: value.hintPass,
+                    subFixIc: GestureDetector(
+                      onTap: () {
+                        loginVm.onChangeHinPass();
+                      },
+                      child: Container(
+                        height: 60,
+                        width: 55,
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                        ),
+                        child: Icon(
+                          value.hintPass == true
+                              ? Icons.visibility_off_outlined
+                              : Icons.remove_red_eye_outlined,
+                        ),
+                      ),
                     ),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  focusedBorder: buildOutlineInputBorder(),
-                ),
+                  );
+                },
               ),
               SizedBox(height: 24),
               Container(
                 height: 60,
                 child: GestureDetector(
                   onTap: () {
-                    if (isLoading != true) {
-                      signInApp(ctr_email.text, ctr_password.text, ctr_email.text.toString());
-                    }
+                    loginVm.signInApp(context: context);
                   },
                   child: Container(
                     height: 60,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
+                    decoration: AppDecoration.radiusMedium.copyWith(
                       color: AppColors.cBlack_50,
                     ),
                     child: Center(
-                      child: isLoading == true
+                      child: loginVm.isLoading == true
                           ? SizedBox(
                               height: 24,
                               width: 24,
@@ -150,9 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                             )
                           : Text(
                               'Login',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 14,
+                              style: AppTextStyle.textMedium.copyWith(
                                 color: AppColors.white,
                               ),
                             ),
@@ -161,50 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               SizedBox(height: 16),
-              Container(
-                height: 60,
-                child: GestureDetector(
-                  onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) {
-                    //       return GetOtpEmail();
-                    //     },
-                    //   ),
-                    // );
-                  },
-                  child: Container(
-                    height: 60,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: AppColors.cGray_50,
-                      border: Border(
-                        top: BorderSide(
-                          color: AppColors.cGray_50,
-                        ),
-                      ),
-                    ),
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Login with Google',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14,
-                              color: AppColors.cBlack_50,
-                            ),
-                          ),
-                          SizedBox(width: 8),
-                          SvgPicture.asset(AppPath.ic_google),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              buildLoginWithGoogle(),
             ],
           ),
         ),
@@ -219,59 +164,6 @@ class _LoginPageState extends State<LoginPage> {
         color: AppColors.cYanPrimary,
       ),
       borderRadius: BorderRadius.circular(12),
-    );
-  }
-
-  Future<void> signInApp(String email, String password, String check) async {
-    try {
-      setState(() {
-        isLoading = true;
-      });
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      print("User signed in: ${userCredential.user}");
-      if (userCredential.user?.email == check) {
-        Navigator.pushReplacementNamed(context, AppRoute.mainPage);
-      } else {
-        print('Lỗi đăng nhập!!!');
-      }
-      setState(() {
-        isLoading = false;
-      });
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        isLoading = false;
-      });
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided.');
-      }
-    }
-  }
-
-  Widget buildRichText(String title, String icon) {
-    return RichText(
-      text: TextSpan(
-        children: [
-          TextSpan(
-            text: '$title ',
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-              color: AppColors.cBlack_50,
-            ),
-          ),
-          TextSpan(
-            text: '$icon',
-            style: TextStyle(
-              fontWeight: FontWeight.w400,
-              color: AppColors.cRed_50,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

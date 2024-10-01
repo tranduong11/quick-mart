@@ -1,8 +1,8 @@
 import 'package:logger/logger.dart';
 
-MyLogger logger = MyLogger();
+AppLogger logger = AppLogger();
 
-class MyLogger {
+class AppLogger {
   Logger logger = Logger();
 
   void v(dynamic message) {

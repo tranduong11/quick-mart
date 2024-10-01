@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:quick_mart/consts/app_colors.dart';
 import 'package:quick_mart/consts/app_decoration.dart';
 import 'package:quick_mart/consts/app_paths.dart';
@@ -7,6 +8,7 @@ import 'package:quick_mart/consts/app_text_style.dart';
 import 'package:quick_mart/data_local/hive_db.dart';
 import 'package:quick_mart/models/entity/firebase_entity/product_entity.dart';
 import 'package:quick_mart/models/entity/hive_entity/item_cart.dart';
+import 'package:quick_mart/screens/categories_page/product_detail_page/product_detail_vm.dart';
 import 'package:readmore/readmore.dart';
 
 class ProductDetailPage extends StatefulWidget {
@@ -19,14 +21,17 @@ class ProductDetailPage extends StatefulWidget {
 }
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
-  int count = 0;
-  double price = 15.25;
-  int indicator = 0;
-  bool check = false;
-
   @override
   void initState() {
     super.initState();
+  }
+
+  late ProductDetailVm productDetailVm;
+
+  @override
+  void didChangeDependencies() {
+    productDetailVm = Provider.of<ProductDetailVm>(context);
+    super.didChangeDependencies();
   }
 
   @override
@@ -46,9 +51,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 allowImplicitScrolling: false,
                 physics: BouncingScrollPhysics(),
                 onPageChanged: (value) {
-                  setState(() {
-                    indicator = value;
-                  });
+                  //context.read<ProductDetailVm>().inDi(value);
+                  productDetailVm.inDi(value);
                 },
                 children: [
                   buildImage(),
@@ -161,7 +165,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         children: [
                           Text(
                             '\$ ${widget.product.price}',
-                            style: AppTextStyle.textMediums,
+                            style: AppTextStyle.textMediumSS,
                           ),
                         ],
                       ),
@@ -196,10 +200,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                               trimLines: 5,
                               textAlign: TextAlign.justify,
                               trimMode: TrimMode.Line,
-                              trimCollapsedText: 'Read more',
-                              trimExpandedText: 'Less more',
-                              lessStyle: buildStyleRead(),
-                              moreStyle: buildStyleRead(),
+                              trimCollapsedText: ' Read more',
+                              trimExpandedText: ' Less more',
+                              lessStyle: AppTextStyle.textMedium.copyWith(
+                                color: AppColors.cYanPrimary,
+                              ),
+                              moreStyle: AppTextStyle.textMedium.copyWith(
+                                color: AppColors.cYanPrimary,
+                              ),
                             ),
                             SizedBox(height: 12),
                             Text(
@@ -213,42 +221,24 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                               decoration: BoxDecoration(
                                 color: AppColors.white,
                                 borderRadius: BorderRadius.circular(8),
-                                border: Border(
-                                  top: buildBorderSide(),
-                                  bottom: buildBorderSide(),
-                                  right: buildBorderSide(),
-                                  left: buildBorderSide(),
-                                ),
+                                border: buildBorder(),
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      if (count > 0) {
-                                        setState(() {
-                                          count--;
-                                          price -= 15.25;
-                                        });
-                                      }
+                                      productDetailVm.countApart();
                                     },
                                     child: SvgPicture.asset(AppPath.ic_minus),
                                   ),
                                   Text(
-                                    '$count',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: AppColors.cBlack_50,
-                                    ),
+                                    '${productDetailVm.count}',
+                                    style: AppTextStyle.textMediumS,
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      if (count >= 0) {
-                                        setState(() {
-                                          count++;
-                                          price += 15.25;
-                                        });
-                                      }
+                                      productDetailVm.countAdd();
                                     },
                                     child: SvgPicture.asset(AppPath.ic_add),
                                   ),
@@ -265,12 +255,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                   decoration: BoxDecoration(
                                     color: AppColors.white,
                                     borderRadius: BorderRadius.circular(12),
-                                    border: Border(
-                                      top: buildBorderSide(),
-                                      bottom: buildBorderSide(),
-                                      right: buildBorderSide(),
-                                      left: buildBorderSide(),
-                                    ),
+                                    border: buildBorder(),
                                   ),
                                   child: Center(
                                     child: Text(
@@ -298,12 +283,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                     decoration: BoxDecoration(
                                       color: AppColors.cBlack_50,
                                       borderRadius: BorderRadius.circular(12),
-                                      border: Border(
-                                        top: buildBorderSide(),
-                                        bottom: buildBorderSide(),
-                                        right: buildBorderSide(),
-                                        left: buildBorderSide(),
-                                      ),
+                                      border: buildBorder(),
                                     ),
                                     child: Center(
                                       child: Row(
@@ -341,7 +321,16 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     );
   }
 
-  Container buildShowBottomSheet() {
+  Border buildBorder() {
+    return Border(
+      top: buildBorderSide(),
+      bottom: buildBorderSide(),
+      right: buildBorderSide(),
+      left: buildBorderSide(),
+    );
+  }
+
+  Widget buildShowBottomSheet() {
     return Container(
       color: Colors.pinkAccent,
       width: double.infinity,
@@ -349,12 +338,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     );
   }
 
-  Container buildIndicator(int index) {
+  Widget buildIndicator(int index) {
     return Container(
       width: 6,
       height: 6,
       decoration: BoxDecoration(
-        color: indicator == index ? AppColors.cYanPrimary : AppColors.cGray_100,
+        color: productDetailVm.indicator == index ? AppColors.cYanPrimary : AppColors.cGray_100,
         borderRadius: BorderRadius.circular(20),
       ),
     );

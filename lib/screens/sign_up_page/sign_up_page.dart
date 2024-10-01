@@ -1,12 +1,15 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:quick_mart/consts/app_colors.dart';
 import 'package:quick_mart/consts/app_paths.dart';
 import 'package:quick_mart/consts/app_routes.dart';
+import 'package:quick_mart/consts/app_text_style.dart';
 import 'package:quick_mart/frebase/firebase_auth/firebase_auth.dart';
-
-import '../otp_email_page/otp_email_page.dart';
+import 'package:quick_mart/screens/otp_email_page/otp_email_page.dart';
+import 'package:quick_mart/screens/sign_up_page/sign_up_vm.dart';
+import 'package:quick_mart/widgets/app_text_filed/app_text_field.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -14,10 +17,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  bool password = true;
-  TextEditingController ctr_name = TextEditingController();
-  TextEditingController ctr_email = TextEditingController();
-  TextEditingController ctr_password = TextEditingController();
+  late SignUpVm signUpVm;
 
   @override
   void initState() {
@@ -25,11 +25,9 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   @override
-  void dispose() {
-    ctr_name.dispose();
-    ctr_email.dispose();
-    ctr_password.dispose();
-    super.dispose();
+  void didChangeDependencies() {
+    signUpVm = Provider.of<SignUpVm>(context);
+    super.didChangeDependencies();
   }
 
   @override
@@ -64,19 +62,23 @@ class _SignUpPageState extends State<SignUpPage> {
                 children: [
                   Text(
                     'Already have an account?',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.cGray,
-                    ),
+                    style: AppTextStyle.textMedium.copyWith(color: AppColors.cGray),
+                    // TextStyle(
+                    //   fontWeight: FontWeight.w400,
+                    //   color: AppColors.cGray,
+                    // ),
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, AppRoute.login, arguments: "duong");
+                      Navigator.pushReplacementNamed(
+                        context,
+                        AppRoute.login,
+                        arguments: "duong",
+                      );
                     },
                     child: Text(
                       'Login',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
+                      style: AppTextStyle.textMedium.copyWith(
                         color: AppColors.cYanPrimary,
                       ),
                     ),
@@ -88,7 +90,7 @@ class _SignUpPageState extends State<SignUpPage> {
               SizedBox(height: 8),
               TextField(
                 textInputAction: TextInputAction.continueAction,
-                controller: ctr_name,
+                controller: signUpVm.ctr_name,
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
@@ -111,52 +113,37 @@ class _SignUpPageState extends State<SignUpPage> {
               SizedBox(height: 8),
               TextField(
                 textInputAction: TextInputAction.continueAction,
-                controller: ctr_email,
+                controller: signUpVm.ctr_email,
                 decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1,
-                      color: AppColors.cYanPrimary,
-                    ),
-                    borderRadius: BorderRadius.circular(12),
+                  enabledBorder: buildOutlineInputBorder(
+                    AppColors.cYanPrimary,
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1,
-                      color: AppColors.cYanPrimary,
-                    ),
-                    borderRadius: BorderRadius.circular(12),
+                  focusedBorder: buildOutlineInputBorder(
+                    AppColors.cYanPrimary,
                   ),
                 ),
               ),
               SizedBox(height: 16),
               buildRichText('Password ', '*'),
-              TextField(
-                obscureText: password,
-                controller: ctr_password,
-                textInputAction: TextInputAction.continueAction,
-                decoration: InputDecoration(
-                  suffixIcon: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        password = !password;
-                      });
-                    },
-                    child: Icon(password ? Icons.visibility_off : Icons.visibility),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1,
-                      color: AppColors.cGray_50,
+              AppTextField(
+                controller: signUpVm.ctr_password,
+                hintText: 'Enter password',
+                hintPass: signUpVm.password,
+                subFixIc: GestureDetector(
+                  onTap: () {
+                    signUpVm.checkPassWord();
+                  },
+                  child: Container(
+                    height: 60,
+                    width: 55,
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
                     ),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1,
-                      color: AppColors.cYanPrimary,
+                    child: Icon(
+                      signUpVm.password == true
+                          ? Icons.visibility_off_outlined
+                          : Icons.remove_red_eye_outlined,
                     ),
-                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
               ),
@@ -165,11 +152,13 @@ class _SignUpPageState extends State<SignUpPage> {
                 height: 60,
                 child: GestureDetector(
                   onTap: () {
-                    final String email = ctr_email.text;
+                    final String email = signUpVm.ctr_email.text;
                     bool isValidEmail = EmailValidator.validate(email);
                     if (isValidEmail) {
-                      AuthLogin.instance.signUp(ctr_email.text, ctr_password.text);
-                      //AuthLogin.instance.otpEmail();
+                      AuthLogin.instance.signUp(
+                        signUpVm.ctr_email.text,
+                        signUpVm.ctr_password.text,
+                      );
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -260,7 +249,18 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  RichText buildRichText(String title, String icon) {
+  OutlineInputBorder buildOutlineInputBorder(Color color) {
+    return OutlineInputBorder(
+      borderSide: BorderSide(
+        width: 1,
+        color: color,
+        //AppColors.cGray_50,
+      ),
+      borderRadius: BorderRadius.circular(12),
+    );
+  }
+
+  Widget buildRichText(String title, String icon) {
     return RichText(
       text: TextSpan(
         children: [

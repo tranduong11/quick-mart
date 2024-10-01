@@ -5,6 +5,14 @@ import 'package:provider/provider.dart';
 import 'package:quick_mart/data_local/hive_db.dart';
 import 'package:quick_mart/providers/profile_provider.dart';
 import 'package:quick_mart/routers/app_routers.dart';
+import 'package:quick_mart/screens/categories_page/categories_vm.dart';
+import 'package:quick_mart/screens/categories_page/product_detail_page/product_detail_vm.dart';
+import 'package:quick_mart/screens/home_page/home_page_vm.dart';
+import 'package:quick_mart/screens/login_page/login_page_vm.dart';
+import 'package:quick_mart/screens/main_page/main_page_vm.dart';
+import 'package:quick_mart/screens/profiles_page/profile_page_vm.dart';
+import 'package:quick_mart/screens/sign_up_page/sign_up_vm.dart';
+import 'package:quick_mart/screens/splashs_page/splash_vm.dart';
 
 import 'firebase_options.dart';
 
@@ -30,7 +38,15 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => SplashVm()),
+        ChangeNotifierProvider(create: (_) => LoginVm()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
+        ChangeNotifierProvider(create: (_) => SignUpVm()),
+        ChangeNotifierProvider(create: (_) => MainPageVm()),
+        ChangeNotifierProvider(create: (_) => HomePageVm()),
+        ChangeNotifierProvider(create: (_) => CateGoRiVm()),
+        ChangeNotifierProvider(create: (_) => ProductDetailVm()),
+        ChangeNotifierProvider(create: (_) => ProfilePageVm()),
       ],
       child: MaterialApp(
         onGenerateRoute: AppRouter.onGenerateRoute,

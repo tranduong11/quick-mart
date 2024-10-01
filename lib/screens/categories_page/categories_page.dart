@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:quick_mart/consts/app_colors.dart';
 import 'package:quick_mart/consts/app_paths.dart';
+import 'package:quick_mart/consts/app_text_style.dart';
 import 'package:quick_mart/models/entity/firebase_entity/categories_entity.dart';
 import 'package:quick_mart/screens/categories_page/product_page/product_page.dart';
 
@@ -14,6 +15,12 @@ class CategoriesPage extends StatefulWidget {
 }
 
 class _CategoriesPageState extends State<CategoriesPage> with AutomaticKeepAliveClientMixin {
+  @override
+  void initState() {
+    fetchData();
+    super.initState();
+  }
+
   List<CategoriesEntity> listCard = [];
 
   Future<void> fetchData() async {
@@ -26,13 +33,8 @@ class _CategoriesPageState extends State<CategoriesPage> with AutomaticKeepAlive
   }
 
   @override
-  void initState() {
-    fetchData();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: AppColors.white,
       body: SafeArea(
@@ -48,14 +50,7 @@ class _CategoriesPageState extends State<CategoriesPage> with AutomaticKeepAlive
                   child: SvgPicture.asset(AppPath.ic_back),
                 ),
                 SizedBox(width: 12),
-                Text(
-                  'Categories',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: AppColors.cBlack_50,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                Text('Categories', style: AppTextStyle.textMediumS),
               ],
             ),
             SizedBox(height: 12),

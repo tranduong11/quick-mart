@@ -1,11 +1,12 @@
 class ProductEntity {
   ProductEntity({
-      this.id, 
-      this.idProduct, 
-      this.images, 
-      this.title, 
-      this.price, 
-      this.detail,});
+    this.id,
+    this.idProduct,
+    this.images,
+    this.title,
+    this.price,
+    this.detail,
+  });
 
   ProductEntity.fromJson(dynamic json) {
     id = json['id'];
@@ -21,19 +22,22 @@ class ProductEntity {
   String? title;
   String? price;
   String? detail;
-ProductEntity copyWith({  String? id,
-  String? idProduct,
-  String? images,
-  String? title,
-  String? price,
-  String? detail,
-}) => ProductEntity(  id: id ?? this.id,
-  idProduct: idProduct ?? this.idProduct,
-  images: images ?? this.images,
-  title: title ?? this.title,
-  price: price ?? this.price,
-  detail: detail ?? this.detail,
-);
+  ProductEntity copyWith({
+    String? id,
+    String? idProduct,
+    String? images,
+    String? title,
+    String? price,
+    String? detail,
+  }) =>
+      ProductEntity(
+        id: id ?? this.id,
+        idProduct: idProduct ?? this.idProduct,
+        images: images ?? this.images,
+        title: title ?? this.title,
+        price: price ?? this.price,
+        detail: detail ?? this.detail,
+      );
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = id;
@@ -44,5 +48,4 @@ ProductEntity copyWith({  String? id,
     map['detail'] = detail;
     return map;
   }
-
 }

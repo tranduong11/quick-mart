@@ -1,8 +1,9 @@
 class ProfileObject {
   ProfileObject({
-      this.images, 
-      this.title, 
-      this.icon,});
+    this.images,
+    this.title,
+    this.icon,
+  });
 
   ProfileObject.fromJson(dynamic json) {
     images = json['images'];
@@ -12,13 +13,16 @@ class ProfileObject {
   String? images;
   String? title;
   String? icon;
-ProfileObject copyWith({  String? images,
-  String? title,
-  String? icon,
-}) => ProfileObject(  images: images ?? this.images,
-  title: title ?? this.title,
-  icon: icon ?? this.icon,
-);
+  ProfileObject copyWith({
+    String? images,
+    String? title,
+    String? icon,
+  }) =>
+      ProfileObject(
+        images: images ?? this.images,
+        title: title ?? this.title,
+        icon: icon ?? this.icon,
+      );
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['images'] = images;
@@ -26,5 +30,4 @@ ProfileObject copyWith({  String? images,
     map['icon'] = icon;
     return map;
   }
-
 }

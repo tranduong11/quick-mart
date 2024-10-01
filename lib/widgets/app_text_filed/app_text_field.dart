@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:quick_mart/consts/app_colors.dart';
 import 'package:quick_mart/consts/app_text_style.dart';
 
-class TextFiledLogin extends StatelessWidget {
+class AppTextField extends StatelessWidget {
   final TextEditingController controller;
   final String? hintText;
   final Widget? subFixIc;
   final bool? hintPass;
   final Function(String)? onChange;
 
-  TextFiledLogin({
+  AppTextField({
     required this.controller,
     this.hintText,
     this.subFixIc,
@@ -20,7 +20,7 @@ class TextFiledLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      autofocus: true,
+      //autofocus: true,
       controller: controller,
       style: AppTextStyle.textMedium,
       autocorrect: false,

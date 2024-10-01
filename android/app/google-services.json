@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "797476675234",
+    "firebase_url": "https://quick-mart-bf609-default-rtdb.firebaseio.com",
     "project_id": "quick-mart-bf609",
     "storage_bucket": "quick-mart-bf609.appspot.com"
   },
@@ -29,6 +30,13 @@
             {
               "client_id": "797476675234-5kdppodmsvtl8vb5ehaj0671res0urre.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "797476675234-3al9go0e7fj82eb2na37e5sejifl1f1t.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.quickMart"
+              }
             }
           ]
         }

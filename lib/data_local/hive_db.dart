@@ -1,7 +1,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:quick_mart/models/entity/hive_entity/item_cart.dart';
-import 'package:quick_mart/utils/logger.dart';
+import 'package:quick_mart/utils/app_logger.dart';
 
 class HiveData {
   HiveData._();
@@ -57,7 +57,6 @@ class HiveData {
       return [];
     }
   }
-//
 // Future<List<AlbumEntity>?> getProjectsDeep() async {
 //   try {
 //     final box = await Hive.openBox(keyAlbum);

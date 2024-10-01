@@ -1,5 +1,7 @@
 // import 'package:quick_mart/models/entity/firebase_entity/product_entity.dart';
 
+class ProductVm {}
+
 // List<ProductEntity> listCopyWith = [
 // ProductEntity(
 //     id: "4",
