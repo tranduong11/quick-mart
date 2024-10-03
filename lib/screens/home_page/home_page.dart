@@ -4,8 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:quick_mart/consts/app_colors.dart';
 import 'package:quick_mart/consts/app_decoration.dart';
 import 'package:quick_mart/consts/app_paths.dart';
-import 'package:quick_mart/consts/app_routes.dart';
 import 'package:quick_mart/consts/app_text_style.dart';
+import 'package:quick_mart/models/entity/products_object.dart';
+import 'package:quick_mart/routers/app_router_path.dart';
 
 import 'home_page_vm.dart';
 
@@ -49,7 +50,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
             onTap: () {
               Navigator.pushNamed(
                 context,
-                AppRoute.searchWidget,
+                AppRoutePath.searchWidget,
               );
             },
             child: SvgPicture.asset(
@@ -181,6 +182,90 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  List<Color> listColor = [
+    AppColors.cBlack_50,
+    AppColors.cGreen_50,
+    AppColors.cYanPrimary,
+  ];
+
+  Widget buildItemGridview(int index, ProductsHome item) {
+    int length = listColor.length;
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            children: [
+              Positioned(
+                child: Image.asset(
+                  item.images ?? '',
+                ),
+              ),
+              Positioned(
+                right: 6,
+                top: 6,
+                child: Container(
+                  width: 24,
+                  height: 24,
+                  decoration: AppDecoration.radiusBiggest,
+                  child: Center(
+                    child: SvgPicture.asset(AppPath.ic_heart_home),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 8),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: 24 + ((length - 1) * 16),
+                height: 24,
+                child: Stack(
+                  children: List.generate(
+                    length,
+                    (index) {
+                      return Positioned(
+                        left: index == (length - 1) ? 0 : ((length - 1) - index) * 16,
+                        child: Container(
+                          width: 24,
+                          height: 24,
+                          decoration: BoxDecoration(
+                            color: listColor[(length - 1) - index],
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              SizedBox(width: 8),
+              Text(
+                item.allcolor ?? '',
+                style: AppTextStyle.textExtremelySmall.copyWith(
+                  color: AppColors.cBlack_50,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+            ],
+          ),
+          Text(
+            item.title ?? '',
+            style: AppTextStyle.textMedium,
+          ),
+          Text(
+            item.price ?? '',
+            style: AppTextStyle.textSmall.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
       ),
     );
   }

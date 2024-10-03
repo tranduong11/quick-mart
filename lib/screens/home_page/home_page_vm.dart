@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:quick_mart/consts/app_colors.dart';
 import 'package:quick_mart/consts/app_decoration.dart';
 import 'package:quick_mart/consts/app_paths.dart';
@@ -180,102 +179,6 @@ Widget buildPageBanner(String images, String percent, String title, String subti
             ],
           ),
         )
-      ],
-    ),
-  );
-}
-
-Widget buildItemGridview(int index, ProductsHome item) {
-  return Container(
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Stack(
-          children: [
-            Positioned(
-              child: Image.asset(
-                item.images ?? '',
-              ),
-            ),
-            Positioned(
-              right: 6,
-              top: 6,
-              child: Container(
-                width: 24,
-                height: 24,
-                decoration: AppDecoration.radiusBiggest,
-                child: Center(
-                  child: SvgPicture.asset(AppPath.ic_heart_home),
-                ),
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 8),
-        Row(
-          children: [
-            Container(
-              width: 60,
-              child: Stack(
-                children: [
-                  Container(
-                    width: 24,
-                    height: 24,
-                    decoration: BoxDecoration(
-                      color: AppColors.cBlack_50,
-                      borderRadius: BorderRadius.circular(30),
-                      border: Border(
-                        top: buildBuildBorderSide(),
-                        bottom: buildBuildBorderSide(),
-                        right: buildBuildBorderSide(),
-                        left: buildBuildBorderSide(),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 18,
-                    child: Container(
-                      width: 24,
-                      height: 24,
-                      decoration: AppDecoration.radiusBiggest.copyWith(
-                        color: AppColors.cGreen_50,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 36,
-                    child: Container(
-                      width: 24,
-                      height: 24,
-                      decoration: AppDecoration.radiusBiggest.copyWith(
-                        color: AppColors.cYanPrimary,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(width: 8),
-            Text(
-              item.allcolor ?? '',
-              style: AppTextStyle.textExtremelySmall.copyWith(
-                color: AppColors.cBlack_50,
-                fontWeight: FontWeight.w300,
-              ),
-            ),
-            Spacer(),
-          ],
-        ),
-        Text(
-          item.title ?? '',
-          style: AppTextStyle.textMedium,
-        ),
-        Text(
-          item.price ?? '',
-          style: AppTextStyle.textSmall.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
       ],
     ),
   );

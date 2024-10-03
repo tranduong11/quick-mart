@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => ProfilePageVm()),
       ],
       child: MaterialApp(
-        onGenerateRoute: AppRouter.onGenerateRoute,
+        onGenerateRoute: AppRouter.I.onGenerateRoute,
         debugShowCheckedModeBanner: false,
       ),
     );

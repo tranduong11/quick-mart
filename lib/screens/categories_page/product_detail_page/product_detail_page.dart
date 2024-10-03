@@ -51,7 +51,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 allowImplicitScrolling: false,
                 physics: BouncingScrollPhysics(),
                 onPageChanged: (value) {
-                  //context.read<ProductDetailVm>().inDi(value);
                   productDetailVm.inDi(value);
                 },
                 children: [

@@ -12,15 +12,13 @@ class MySplash extends StatefulWidget {
 }
 
 class _MySplashState extends State<MySplash> {
+  late SplashVm splashVm;
+
   @override
   void initState() {
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    Provider.of<SplashVm>(context).checkNavigate(context);
+    splashVm = context.read<SplashVm>();
+    splashVm.checkNavigate(context);
   }
 
   @override

@@ -1,4 +1,4 @@
-class AppRoute {
+class AppRoutePath {
   static const String splash = '/';
   static const String onBoarding = '/onBoarding';
   static const String login = '/Login';

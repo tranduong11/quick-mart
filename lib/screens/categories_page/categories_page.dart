@@ -1,10 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:quick_mart/consts/app_colors.dart';
 import 'package:quick_mart/consts/app_paths.dart';
 import 'package:quick_mart/consts/app_text_style.dart';
 import 'package:quick_mart/models/entity/firebase_entity/categories_entity.dart';
+import 'package:quick_mart/screens/categories_page/categories_vm.dart';
 import 'package:quick_mart/screens/categories_page/product_page/product_page.dart';
 
 class CategoriesPage extends StatefulWidget {
@@ -15,21 +16,13 @@ class CategoriesPage extends StatefulWidget {
 }
 
 class _CategoriesPageState extends State<CategoriesPage> with AutomaticKeepAliveClientMixin {
+  late CateGoRiVm cateGoRiVm;
+
   @override
   void initState() {
-    fetchData();
     super.initState();
-  }
-
-  List<CategoriesEntity> listCard = [];
-
-  Future<void> fetchData() async {
-    await FirebaseFirestore.instance.collection("categories").get().then((data) {
-      data.docs.forEach((result) {
-        listCard.add(CategoriesEntity.fromJson(result));
-      });
-      setState(() {});
-    });
+    cateGoRiVm = context.read<CateGoRiVm>();
+    cateGoRiVm.fetchData();
   }
 
   @override
@@ -59,20 +52,24 @@ class _CategoriesPageState extends State<CategoriesPage> with AutomaticKeepAlive
               thickness: 0.5,
             ),
             SizedBox(height: 12),
-            Expanded(
-              child: GridView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                itemCount: listCard.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 8,
-                  childAspectRatio: 1 / 0.6,
-                  mainAxisSpacing: 8,
-                ),
-                itemBuilder: (context, int index) {
-                  return buildItemGridView(index, listCard[index]);
-                },
-              ),
+            Consumer<CateGoRiVm>(
+              builder: (BuildContext context, value, Widget? child) {
+                return Expanded(
+                  child: GridView.builder(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: value.listCard.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 8,
+                      childAspectRatio: 1 / 0.6,
+                      mainAxisSpacing: 8,
+                    ),
+                    itemBuilder: (context, int index) {
+                      return buildItemGridView(index, value.listCard[index]);
+                    },
+                  ),
+                );
+              },
             ),
           ],
         ),
@@ -87,7 +84,7 @@ class _CategoriesPageState extends State<CategoriesPage> with AutomaticKeepAlive
           context,
           MaterialPageRoute(
             builder: (context) {
-              return ProductPage(id: listCard[index].idProduct ?? '');
+              return ProductPage(id: cateGoRiVm.listCard[index].idProduct ?? '');
             },
           ),
         );

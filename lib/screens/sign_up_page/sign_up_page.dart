@@ -4,9 +4,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_mart/consts/app_colors.dart';
 import 'package:quick_mart/consts/app_paths.dart';
-import 'package:quick_mart/consts/app_routes.dart';
 import 'package:quick_mart/consts/app_text_style.dart';
 import 'package:quick_mart/frebase/firebase_auth/firebase_auth.dart';
+import 'package:quick_mart/routers/app_router_path.dart';
 import 'package:quick_mart/screens/otp_email_page/otp_email_page.dart';
 import 'package:quick_mart/screens/sign_up_page/sign_up_vm.dart';
 import 'package:quick_mart/widgets/app_text_filed/app_text_field.dart';
@@ -63,16 +63,12 @@ class _SignUpPageState extends State<SignUpPage> {
                   Text(
                     'Already have an account?',
                     style: AppTextStyle.textMedium.copyWith(color: AppColors.cGray),
-                    // TextStyle(
-                    //   fontWeight: FontWeight.w400,
-                    //   color: AppColors.cGray,
-                    // ),
                   ),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushReplacementNamed(
                         context,
-                        AppRoute.login,
+                        AppRoutePath.login,
                         arguments: "duong",
                       );
                     },

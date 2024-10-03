@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:quick_mart/consts/app_colors.dart';
 import 'package:quick_mart/consts/app_decoration.dart';
 import 'package:quick_mart/consts/app_paths.dart';
-import 'package:quick_mart/consts/app_routes.dart';
 import 'package:quick_mart/consts/app_text_style.dart';
+import 'package:quick_mart/routers/app_router_path.dart';
 import 'package:quick_mart/screens/login_page/login_page_vm.dart';
 import 'package:quick_mart/screens/login_page/widgets/login_widget.dart';
 import 'package:quick_mart/widgets/app_text_filed/app_text_field.dart';
@@ -23,12 +23,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    loginVm = Provider.of<LoginVm>(context);
+    loginVm = context.read<LoginVm>();
+    print(loginVm.ctrEmail.text);
   }
 
   @override
@@ -71,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                     onTap: () {
                       Navigator.pushReplacementNamed(
                         context,
-                        AppRoute.signUpOne,
+                        AppRoutePath.signUpOne,
                       );
                     },
                     child: Text(
@@ -94,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
               buildRichText('Password ', '*'),
               SizedBox(height: 8),
               Consumer<LoginVm>(
-                builder: (BuildContext context, value, Widget? child) {
+                builder: (BuildContext context, LoginVm value, Widget? child) {
                   return AppTextField(
                     controller: loginVm.ctrPassword,
                     hintText: 'Enter password',

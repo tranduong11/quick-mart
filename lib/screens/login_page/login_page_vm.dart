@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:quick_mart/consts/app_routes.dart';
+import 'package:quick_mart/routers/app_router_path.dart';
 
 class LoginVm extends ChangeNotifier {
   TextEditingController ctrEmail = TextEditingController(text: "a@gmail.com");
@@ -20,7 +20,7 @@ class LoginVm extends ChangeNotifier {
       );
       print("User signed in: ${userCredential.user}");
       if (userCredential.user?.email != null) {
-        Navigator.pushReplacementNamed(context, AppRoute.mainPage);
+        Navigator.pushReplacementNamed(context, AppRoutePath.mainPage);
       } else {
         print('Lỗi đăng nhập!!!');
       }

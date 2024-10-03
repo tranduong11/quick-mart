@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quick_mart/consts/app_routes.dart';
+import 'package:quick_mart/routers/app_router_path.dart';
 import 'package:quick_mart/screens/categories_page/product_page/product_page.dart';
 import 'package:quick_mart/screens/home_page/home_page.dart';
 import 'package:quick_mart/screens/home_page/widgets/search_widget.dart';
@@ -13,39 +13,54 @@ import 'package:quick_mart/screens/splashs_page/splash_page.dart';
 class AppRouter {
   AppRouter._();
 
-  static MaterialPageRoute<dynamic> onGenerateRoute(RouteSettings settings) {
+  static AppRouter? _instance;
+
+  static AppRouter get I {
+    if (_instance != null) {
+      return _instance!;
+    } else {
+      _instance = AppRouter._();
+      return _instance!;
+    }
+  }
+
+  MaterialPageRoute<dynamic> onGenerateRoute(RouteSettings settings) {
     return MaterialPageRoute<dynamic>(
       settings: settings,
       builder: (BuildContext context) {
-        return router(context: context, routeName: settings.name!, data: settings.arguments);
+        return router(
+          context: context,
+          routeName: settings.name!,
+          data: settings.arguments,
+        );
       },
     );
   }
 
-  static router({required BuildContext context, required String routeName, Object? data}) {
+  Widget router({required BuildContext context, required String routeName, Object? data}) {
     switch (routeName) {
-      case AppRoute.splash:
+      case AppRoutePath.splash:
         return MySplash();
-      case AppRoute.onBoarding:
+      case AppRoutePath.onBoarding:
         return OnboardPage();
-      case AppRoute.login:
+      case AppRoutePath.login:
         return LoginPage();
-      case AppRoute.signUpOne:
+      case AppRoutePath.signUpOne:
         return SignUpPage();
-      case AppRoute.homePage:
+      case AppRoutePath.homePage:
         return HomePage();
-      case AppRoute.searchWidget:
+      case AppRoutePath.searchWidget:
         return SearchWidget();
-      case AppRoute.mainPage:
+      case AppRoutePath.mainPage:
         return MainPage();
-      case AppRoute.mySubProduct:
+      case AppRoutePath.mySubProduct:
         return ProductPage(
           id: '',
         );
-      // case AppRoute.productDetail:
-      //   return ProductDetailPage(product: null,);
-      case AppRoute.myCartPage:
+      case AppRoutePath.myCartPage:
         return MyCartPage();
+      default:
+        return SizedBox();
     }
   }
 }
