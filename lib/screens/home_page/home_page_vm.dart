@@ -1,8 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:quick_mart/consts/app_colors.dart';
-import 'package:quick_mart/consts/app_decoration.dart';
 import 'package:quick_mart/consts/app_paths.dart';
-import 'package:quick_mart/consts/app_text_style.dart';
 import 'package:quick_mart/models/entity/firebase_entity/categories_entity.dart';
 import 'package:quick_mart/models/entity/products_object.dart';
 
@@ -13,6 +12,31 @@ class HomePageVm extends ChangeNotifier {
     indicator = i;
     notifyListeners();
   }
+
+  List<CategoriesEntity> listCard = [];
+  bool isLoading = false;
+
+  Future<void> fetchData() async {
+    try {
+      await FirebaseFirestore.instance.collection("categories").get().then((data) {
+        data.docs.forEach((result) {
+          listCard.add(CategoriesEntity.fromJson(result));
+        });
+        notifyListeners();
+      });
+    } catch (e) {
+      print('Loi hien thi data!!');
+    }
+  }
+}
+
+BorderSide buildBuildBorderSide() => buildBorderSide(2.5, AppColors.cBlue);
+
+BorderSide buildBorderSide(double width, Color color) {
+  return BorderSide(
+    width: width,
+    color: color,
+  );
 }
 
 List<CategoriesEntity> listCategories = [
@@ -77,118 +101,3 @@ List<ProductsHome> listProductsHome = [
     allcolor: 'All 5 Colors',
   ),
 ];
-
-Widget buildRowTitle(String title, String subTitle) {
-  return Row(
-    children: [
-      SizedBox(width: 16),
-      Text(
-        '$title',
-        style: AppTextStyle.textBigS,
-      ),
-      Spacer(),
-      Text(
-        '$subTitle',
-        style: AppTextStyle.textMedium.copyWith(
-          color: AppColors.cYanPrimary,
-        ),
-      ),
-      SizedBox(width: 16),
-    ],
-  );
-}
-
-Widget buildItemListView(int index, CategoriesEntity itemCount) {
-  return Container(
-    width: 76,
-    height: 60,
-    margin: EdgeInsets.symmetric(horizontal: 10),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(12),
-      border: Border(
-        top: buildBorderSide(1, AppColors.cGray_50),
-        bottom: buildBorderSide(1, AppColors.cGray_50),
-        right: buildBorderSide(1, AppColors.cGray_50),
-        left: buildBorderSide(1, AppColors.cGray_50),
-      ),
-    ),
-    child: Column(
-      children: [
-        SizedBox(height: 5),
-        Image.asset(
-          itemCount.images ?? '',
-          width: 60,
-          height: 29,
-        ),
-        SizedBox(height: 2),
-        Container(
-          width: double.infinity,
-          height: 13,
-          margin: EdgeInsets.only(bottom: 2),
-          child: Center(
-            child: Text(
-              '${itemCount.title}',
-              style: AppTextStyle.textSmall,
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Widget buildPageBanner(String images, String percent, String title, String subtitle) {
-  return Container(
-    child: Stack(
-      children: [
-        Image.asset(images),
-        Positioned(
-          left: 12,
-          bottom: 10,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: 59,
-                height: 24,
-                padding: EdgeInsets.all(6),
-                decoration: AppDecoration.radiusSmall.copyWith(
-                  color: AppColors.cBlack_50,
-                ),
-                child: Center(
-                  child: Text(
-                    '$percent',
-                    style: AppTextStyle.textExtremelySmall.copyWith(
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ),
-              Text(
-                '$subtitle',
-                style: AppTextStyle.textExtremelySmall.copyWith(
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              Text(
-                '$title',
-                style: AppTextStyle.textBigSS.copyWith(
-                  color: AppColors.white,
-                ),
-              ),
-            ],
-          ),
-        )
-      ],
-    ),
-  );
-}
-
-BorderSide buildBuildBorderSide() => buildBorderSide(2.5, AppColors.cBlue);
-
-BorderSide buildBorderSide(double width, Color color) {
-  return BorderSide(
-    width: width,
-    color: color,
-  );
-}

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:quick_mart/routers/app_router_path.dart';
+import 'package:quick_mart/screens/cart_page/my_cart_page.dart';
 import 'package:quick_mart/screens/categories_page/product_page/product_page.dart';
 import 'package:quick_mart/screens/home_page/home_page.dart';
 import 'package:quick_mart/screens/home_page/widgets/search_widget.dart';
 import 'package:quick_mart/screens/login_page/login_page.dart';
 import 'package:quick_mart/screens/main_page/main_page.dart';
-import 'package:quick_mart/screens/my_cart_page/my_cart_page.dart';
 import 'package:quick_mart/screens/onboard_page/onboard_page.dart';
 import 'package:quick_mart/screens/sign_up_page/sign_up_page.dart';
 import 'package:quick_mart/screens/splashs_page/splash_page.dart';
@@ -15,13 +15,9 @@ class AppRouter {
 
   static AppRouter? _instance;
 
-  static AppRouter get I {
-    if (_instance != null) {
-      return _instance!;
-    } else {
-      _instance = AppRouter._();
-      return _instance!;
-    }
+  static AppRouter get instance {
+    _instance ??= AppRouter._();
+    return _instance!;
   }
 
   MaterialPageRoute<dynamic> onGenerateRoute(RouteSettings settings) {

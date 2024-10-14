@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_mart/consts/app_colors.dart';
+import 'package:quick_mart/screens/cart_page/my_cart_page.dart';
 import 'package:quick_mart/screens/categories_page/categories_page.dart';
 import 'package:quick_mart/screens/home_page/home_page.dart';
 import 'package:quick_mart/screens/main_page/main_page_vm.dart';
-import 'package:quick_mart/screens/my_cart_page/my_cart_page.dart';
 import 'package:quick_mart/screens/profiles_page/profile_page.dart';
 import 'package:quick_mart/screens/wishlists_page/wishlists_home.dart';
 

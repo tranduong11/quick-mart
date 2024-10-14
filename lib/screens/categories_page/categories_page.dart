@@ -102,25 +102,33 @@ class _CategoriesPageState extends State<CategoriesPage> with AutomaticKeepAlive
             left: buildBorderSide(),
           ),
         ),
-        child: Column(
-          children: [
-            SizedBox(height: 22.5),
-            SizedBox(
-              width: 136,
-              height: 38,
-              child: Image.network(item.images ?? ''),
-            ),
-            SizedBox(height: 2),
-            Text(
-              '${item.title}',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: AppColors.cBlack_50,
-              ),
-            )
-          ],
+        child: Center(
+          child: cateGoRiVm.isLoading == true
+              ? SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: CircularProgressIndicator(),
+                )
+              : Column(
+                  children: [
+                    SizedBox(height: 22.5),
+                    SizedBox(
+                      width: 136,
+                      height: 38,
+                      child: Image.network(item.images ?? ''),
+                    ),
+                    SizedBox(height: 2),
+                    Text(
+                      '${item.title}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.cBlack_50,
+                      ),
+                    )
+                  ],
+                ),
         ),
       ),
     );

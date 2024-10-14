@@ -23,8 +23,12 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    loginVm = context.read<LoginVm>();
-    print(loginVm.ctrEmail.text);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    loginVm = Provider.of<LoginVm>(context);
   }
 
   @override

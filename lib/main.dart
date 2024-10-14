@@ -1,12 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_mart/data_local/hive_db.dart';
+import 'package:quick_mart/generated/l10n.dart';
 import 'package:quick_mart/providers/profile_provider.dart';
 import 'package:quick_mart/routers/app_routers.dart';
+import 'package:quick_mart/screens/cart_page/my_cart_vm.dart';
 import 'package:quick_mart/screens/categories_page/categories_vm.dart';
 import 'package:quick_mart/screens/categories_page/product_detail_page/product_detail_vm.dart';
+import 'package:quick_mart/screens/categories_page/product_page/product_vm.dart';
 import 'package:quick_mart/screens/home_page/home_page_vm.dart';
 import 'package:quick_mart/screens/login_page/login_page_vm.dart';
 import 'package:quick_mart/screens/main_page/main_page_vm.dart';
@@ -36,6 +41,10 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => SplashVm()),
@@ -47,10 +56,23 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => CateGoRiVm()),
         ChangeNotifierProvider(create: (_) => ProductDetailVm()),
         ChangeNotifierProvider(create: (_) => ProfilePageVm()),
+        ChangeNotifierProvider(create: (_) => MyCartVm()),
+        ChangeNotifierProvider(create: (_) => ProductVm()),
       ],
       child: MaterialApp(
-        onGenerateRoute: AppRouter.I.onGenerateRoute,
+        onGenerateRoute: AppRouter.instance.onGenerateRoute,
         debugShowCheckedModeBanner: false,
+        localizationsDelegates: [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('en', ''),
+          Locale('vi', ''),
+        ],
+        locale: Locale('en', ''),
       ),
     );
   }

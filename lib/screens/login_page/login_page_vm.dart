@@ -37,6 +37,8 @@ class LoginVm extends ChangeNotifier {
     }
   }
 
+  Future signInWithGoogle() async {}
+
   void onChangeHinPass() {
     hintPass = !hintPass;
     notifyListeners();

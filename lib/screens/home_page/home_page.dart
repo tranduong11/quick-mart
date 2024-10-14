@@ -5,8 +5,10 @@ import 'package:quick_mart/consts/app_colors.dart';
 import 'package:quick_mart/consts/app_decoration.dart';
 import 'package:quick_mart/consts/app_paths.dart';
 import 'package:quick_mart/consts/app_text_style.dart';
+import 'package:quick_mart/models/entity/firebase_entity/categories_entity.dart';
 import 'package:quick_mart/models/entity/products_object.dart';
 import 'package:quick_mart/routers/app_router_path.dart';
+import 'package:quick_mart/screens/categories_page/product_page/product_page.dart';
 
 import 'home_page_vm.dart';
 
@@ -18,6 +20,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
+  late HomePageVm homePageVm;
+
+  @override
+  void initState() {
+    super.initState();
+    homePageVm = context.read<HomePageVm>();
+    homePageVm.fetchData();
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -144,19 +155,21 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
             SizedBox(height: 24),
             buildRowTitle('Categories', 'SEE ALL'),
             SizedBox(height: 12),
-            Container(
-              height: 60,
-              margin: EdgeInsets.symmetric(horizontal: 5),
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: listCategories.length,
-                physics: BouncingScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return buildItemListView(index, listCategories[index]);
-                },
-              ),
-            ),
+            Consumer<HomePageVm>(builder: (BuildContext context, value, Widget? child) {
+              return Container(
+                height: 60,
+                margin: EdgeInsets.symmetric(horizontal: 5),
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: value.listCard.length,
+                  physics: BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return buildItemListView(index, value.listCard[index]);
+                  },
+                ),
+              );
+            }),
             SizedBox(height: 24),
             buildRowTitle('Latest Products', 'SEE ALL'),
             SizedBox(height: 12),
@@ -265,6 +278,128 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
               fontWeight: FontWeight.bold,
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildRowTitle(String title, String subTitle) {
+    return Row(
+      children: [
+        SizedBox(width: 16),
+        Text(
+          '$title',
+          style: AppTextStyle.textBigS,
+        ),
+        Spacer(),
+        Text(
+          '$subTitle',
+          style: AppTextStyle.textMedium.copyWith(
+            color: AppColors.cYanPrimary,
+          ),
+        ),
+        SizedBox(width: 16),
+      ],
+    );
+  }
+
+  Widget buildItemListView(int index, CategoriesEntity itemCount) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return ProductPage(id: homePageVm.listCard[index].idProduct ?? '');
+            },
+          ),
+        );
+      },
+      child: Container(
+        width: 80,
+        height: 60,
+        margin: EdgeInsets.symmetric(horizontal: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          border: Border(
+            top: buildBorderSide(1, AppColors.cGray_50),
+            bottom: buildBorderSide(1, AppColors.cGray_50),
+            right: buildBorderSide(1, AppColors.cGray_50),
+            left: buildBorderSide(1, AppColors.cGray_50),
+          ),
+        ),
+        child: Column(
+          children: [
+            SizedBox(height: 5),
+            Image.network(
+              itemCount.images ?? '',
+              width: 60,
+              height: 29,
+            ),
+            SizedBox(height: 2),
+            Container(
+              width: double.infinity,
+              height: 13,
+              margin: EdgeInsets.only(bottom: 2),
+              child: Center(
+                child: Text(
+                  '${itemCount.title}',
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.cBlack_50,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildPageBanner(String images, String percent, String title, String subtitle) {
+    return Container(
+      child: Stack(
+        children: [
+          Image.asset(images),
+          Positioned(
+            left: 12,
+            bottom: 10,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 59,
+                  height: 24,
+                  padding: EdgeInsets.all(6),
+                  decoration: AppDecoration.radiusSmall.copyWith(
+                    color: AppColors.cBlack_50,
+                  ),
+                  child: Center(
+                    child: Text(
+                      '$percent',
+                      style: AppTextStyle.textExtremelySmall.copyWith(
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+                Text(
+                  '$subtitle',
+                  style: AppTextStyle.textExtremelySmall.copyWith(
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+                Text(
+                  '$title',
+                  style: AppTextStyle.textBigSS.copyWith(
+                    color: AppColors.white,
+                  ),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );

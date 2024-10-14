@@ -1,10 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:quick_mart/consts/app_colors.dart';
 import 'package:quick_mart/consts/app_paths.dart';
 import 'package:quick_mart/models/entity/firebase_entity/product_entity.dart';
 import 'package:quick_mart/screens/categories_page/product_detail_page/product_detail_page.dart';
+import 'package:quick_mart/screens/categories_page/product_page/product_vm.dart';
 
 class ProductPage extends StatefulWidget {
   final String id;
@@ -16,33 +17,19 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
+  late ProductVm productVm;
+
   @override
   void initState() {
     super.initState();
-    fetchData();
-  }
-
-  List<ProductEntity> listProduct = [];
-
-  fetchData() {
-    FirebaseFirestore.instance
-        .collection("products")
-        .where("idProduct", isEqualTo: widget.id)
-        .get()
-        .then(
-      (querySnapshot) {
-        print("Successfully completed");
-        for (var docSnapshot in querySnapshot.docs) {
-          listProduct.add(ProductEntity.fromJson(docSnapshot));
-        }
-        setState(() {});
-      },
-    );
+    productVm = context.read<ProductVm>();
+    productVm.fetchData(widget.id);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.white,
       body: SafeArea(
         top: true,
         bottom: false,
@@ -74,24 +61,26 @@ class _ProductPageState extends State<ProductPage> {
               thickness: 0.5,
             ),
             Expanded(
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 16),
-                child: GridView.builder(
-                  itemCount: listProduct.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 8,
-                    childAspectRatio: 1 / 1.07,
-                    mainAxisSpacing: 8,
+              child: Consumer<ProductVm>(builder: (BuildContext context, value, Widget? child) {
+                return Container(
+                  margin: EdgeInsets.symmetric(horizontal: 16),
+                  child: GridView.builder(
+                    itemCount: value.listProduct.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 8,
+                      childAspectRatio: 1 / 1.07,
+                      mainAxisSpacing: 8,
+                    ),
+                    itemBuilder: (context, int index) {
+                      return buildItemGridview(
+                        index,
+                        value.listProduct[index],
+                      );
+                    },
                   ),
-                  itemBuilder: (context, int index) {
-                    return buildItemGridview(
-                      index,
-                      listProduct[index],
-                    );
-                  },
-                ),
-              ),
+                );
+              }),
             ),
           ],
         ),
@@ -106,7 +95,7 @@ class _ProductPageState extends State<ProductPage> {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return ProductDetailPage(product: listProduct[index]);
+              return ProductDetailPage(product: productVm.listProduct[index]);
             },
           ),
         );

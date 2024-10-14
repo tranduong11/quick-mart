@@ -9,6 +9,7 @@ import 'package:quick_mart/data_local/hive_db.dart';
 import 'package:quick_mart/models/entity/firebase_entity/product_entity.dart';
 import 'package:quick_mart/models/entity/hive_entity/item_cart.dart';
 import 'package:quick_mart/screens/categories_page/product_detail_page/product_detail_vm.dart';
+import 'package:quick_mart/screens/categories_page/product_detail_page/widgets/snackbar.dart';
 import 'package:readmore/readmore.dart';
 
 class ProductDetailPage extends StatefulWidget {
@@ -37,6 +38,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.white,
       body: SafeArea(
         top: false,
         bottom: true,
@@ -275,6 +277,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                       price: "${widget.product.price}",
                                     );
                                     HiveData.instance.addProject(itemCart);
+                                    CustomSnackBar.show(context);
                                   },
                                   child: Container(
                                     width: 160,

@@ -30,15 +30,17 @@ class AppPath {
   static const String ic_item4 = 'assets/icons/ic_item4_categori.png';
   static const String ic_item5 = 'assets/icons/ic_item5_categori.png';
   static const String ic_logout = 'assets/icons/ic_logout.svg';
-  static const String ic_box = 'assets/icons/icon_profile/ic_box.svg';
-  static const String ic_chevron = 'assets/icons/icon_profile/ic_chevron.svg';
-  static const String ic_card = 'assets/icons/icon_profile/ic_card.svg';
-  static const String ic_receipt = 'assets/icons/icon_profile/ic_receipt.svg';
-  static const String ic_shield = 'assets/icons/icon_profile/ic_shield.svg';
-  static const String ic_document = 'assets/icons/icon_profile/ic_document.svg';
-  static const String ic_message = 'assets/icons/icon_profile/ic_message.svg';
-  static const String ic_lock = 'assets/icons/icon_profile/ic_lock.svg';
-  static const String ic_mobile = 'assets/icons/icon_profile/ic_mobile.svg';
+
+  static const String ic_box = 'assets/icons/ic_box.svg';
+  static const String ic_card = 'assets/icons/ic_card.svg';
+  static const String ic_receipt = 'assets/icons/ic_receipt.svg';
+  static const String ic_shield = 'assets/icons/ic_shield.svg';
+  static const String ic_document = 'assets/icons/ic_document.svg';
+  static const String ic_message = 'assets/icons/ic_message.svg';
+  static const String ic_lock = 'assets/icons/ic_lock.svg';
+  static const String ic_mobile = 'assets/icons/ic_mobile.svg';
+  static const String ic_chevron = 'assets/icons/ic_chevron.svg';
+
   static const String ic_cancel = 'assets/icons/ic_cancel.svg';
   static const String ic_search = 'assets/icons/ic_search.svg';
   static const String ic_setting = 'assets/icons/ic_setting.svg';
@@ -49,6 +51,7 @@ class AppPath {
   static const String ic_shopping = 'assets/icons/ic_shopping.svg';
   static const String ic_delete = 'assets/icons/ic_delete.svg';
   static const String ic_trash = 'assets/icons/ic_trash.svg';
+  static const String ic_success = 'assets/icons/ic_success.svg';
 
   // images
   static const String img_onboard = 'assets/images/img_onboard.png';

@@ -1,6 +1,25 @@
 // import 'package:quick_mart/models/entity/firebase_entity/product_entity.dart';
 
-class ProductVm {}
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:quick_mart/models/entity/firebase_entity/product_entity.dart';
+
+class ProductVm extends ChangeNotifier {
+  List<ProductEntity> listProduct = [];
+
+  void fetchData(String id) {
+    listProduct.clear();
+    FirebaseFirestore.instance.collection("products").where("idProduct", isEqualTo: id).get().then(
+      (querySnapshot) {
+        print("Successfully completed");
+        for (var docSnapshot in querySnapshot.docs) {
+          listProduct.add(ProductEntity.fromJson(docSnapshot));
+        }
+        notifyListeners();
+      },
+    );
+  }
+}
 
 // List<ProductEntity> listCopyWith = [
 // ProductEntity(

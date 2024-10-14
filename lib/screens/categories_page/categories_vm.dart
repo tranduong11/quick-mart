@@ -4,8 +4,11 @@ import 'package:quick_mart/models/entity/firebase_entity/categories_entity.dart'
 
 class CateGoRiVm extends ChangeNotifier {
   List<CategoriesEntity> listCard = [];
+  bool isLoading = false;
 
   Future<void> fetchData() async {
+    isLoading = true;
+    notifyListeners();
     try {
       await FirebaseFirestore.instance.collection("categories").get().then((data) {
         data.docs.forEach((result) {
@@ -13,6 +16,10 @@ class CateGoRiVm extends ChangeNotifier {
         });
         notifyListeners();
       });
-    } catch (e) {}
+      isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      print('Loi hien thi data!!');
+    }
   }
 }
