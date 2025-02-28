@@ -13,9 +13,13 @@ class ItemCart extends HiveObject {
   @HiveField(2)
   final String? price;
 
+  @HiveField(3)
+  late final int? count;
+
   ItemCart({
     this.images,
     this.title,
     this.price,
+    this.count,
   });
 }
