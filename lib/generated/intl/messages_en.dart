@@ -26,10 +26,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "txt_home": MessageLookupByLibrary.simpleMessage("Home"),
         "txt_logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "txt_message": MessageLookupByLibrary.simpleMessage("Message"),
+        "txt_message1": MessageLookupByLibrary.simpleMessage("Message"),
         "txt_password": MessageLookupByLibrary.simpleMessage("Password"),
         "txt_search": MessageLookupByLibrary.simpleMessage("Search"),
-        "txt_select_language": MessageLookupByLibrary.simpleMessage("Select Language"),
-        "txt_system_error": MessageLookupByLibrary.simpleMessage("System Error!"),
+        "txt_select_language":
+            MessageLookupByLibrary.simpleMessage("Select Language"),
+        "txt_system_error":
+            MessageLookupByLibrary.simpleMessage("System Error!"),
         "txt_username": MessageLookupByLibrary.simpleMessage("Username")
       };
 }
