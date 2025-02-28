@@ -20,19 +20,22 @@ class ItemCartAdapter extends TypeAdapter<ItemCart> {
       images: fields[0] as String?,
       title: fields[1] as String?,
       price: fields[2] as String?,
+      count: fields[3] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, ItemCart obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.images)
       ..writeByte(1)
       ..write(obj.title)
       ..writeByte(2)
-      ..write(obj.price);
+      ..write(obj.price)
+      ..writeByte(3)
+      ..write(obj.count);
   }
 
   @override
@@ -41,5 +44,7 @@ class ItemCartAdapter extends TypeAdapter<ItemCart> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ItemCartAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is ItemCartAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
