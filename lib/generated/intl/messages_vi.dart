@@ -28,8 +28,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "txt_message": MessageLookupByLibrary.simpleMessage("Message"),
         "txt_password": MessageLookupByLibrary.simpleMessage("Password"),
         "txt_search": MessageLookupByLibrary.simpleMessage("Search"),
-        "txt_select_language": MessageLookupByLibrary.simpleMessage("Select Language"),
-        "txt_system_error": MessageLookupByLibrary.simpleMessage("System Error!"),
+        "txt_select_language":
+            MessageLookupByLibrary.simpleMessage("Select Language"),
+        "txt_system_error":
+            MessageLookupByLibrary.simpleMessage("System Error!"),
         "txt_username": MessageLookupByLibrary.simpleMessage("Username")
       };
 }
