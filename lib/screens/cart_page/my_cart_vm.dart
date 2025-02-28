@@ -3,23 +3,26 @@ import 'package:quick_mart/data_local/hive_db.dart';
 import 'package:quick_mart/models/entity/hive_entity/item_cart.dart';
 
 class MyCartVm extends ChangeNotifier {
-  int count = 0;
   int? indexSelectItem = 0;
   String images1 = '';
 
   List<int> listIndexSelect = [];
   List<ItemCart> listData = [];
 
-  void Reduce() {
-    if (count > 0) {
-      count--;
+  void Reduce(int index) {
+    if (listData[index].count! > 0) {
+      listData[index].count = (listData[index].count ?? 0) - 1;
+      listData[index].save();
+      notifyListeners();
     }
     notifyListeners();
   }
 
-  void Increase() {
-    if (count >= 0) {
-      count++;
+  void Increase(int index) {
+    if (listData[index].count! >= 0) {
+      listData[index].count = (listData[index].count ?? 0) + 1;
+      listData[index].save();
+      notifyListeners();
     }
     notifyListeners();
   }

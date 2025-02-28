@@ -18,7 +18,6 @@ class LoginVm extends ChangeNotifier {
         email: ctrEmail.text,
         password: ctrPassword.text,
       );
-      print("User signed in: ${userCredential.user}");
       if (userCredential.user?.email != null) {
         Navigator.pushReplacementNamed(context, AppRoutePath.mainPage);
       } else {
@@ -30,7 +29,7 @@ class LoginVm extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        print('Email chua duoc dang ky.');
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided.');
       }

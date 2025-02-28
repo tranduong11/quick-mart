@@ -141,7 +141,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             style: AppTextStyle.textExtremelySmall,
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                   SizedBox(height: 6),

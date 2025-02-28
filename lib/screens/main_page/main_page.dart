@@ -7,7 +7,7 @@ import 'package:quick_mart/screens/categories_page/categories_page.dart';
 import 'package:quick_mart/screens/home_page/home_page.dart';
 import 'package:quick_mart/screens/main_page/main_page_vm.dart';
 import 'package:quick_mart/screens/profiles_page/profile_page.dart';
-import 'package:quick_mart/screens/wishlists_page/wishlists_home.dart';
+import 'package:quick_mart/screens/wishlists_page/wishlists_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
