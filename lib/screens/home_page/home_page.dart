@@ -139,7 +139,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                   ),
                   Positioned(
                     bottom: 10,
-                    right: 16,
+                    right: 30,
                     child: Container(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

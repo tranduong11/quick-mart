@@ -164,7 +164,9 @@ class _MyCartPageState extends State<MyCartPage> with AutomaticKeepAliveClientMi
                 width: 96,
                 height: 32,
                 decoration: BoxDecoration(
-                  color: AppColors.white,
+                  // color: AppColors.white,
+                  color: Colors.red,
+
                   borderRadius: BorderRadius.circular(8),
                   border: buildBorder(),
                 ),
@@ -173,12 +175,12 @@ class _MyCartPageState extends State<MyCartPage> with AutomaticKeepAliveClientMi
                   children: [
                     GestureDetector(
                       onTap: () {
-                        myCartVm.Reduce();
+                        myCartVm.Reduce(index);
                       },
                       child: SvgPicture.asset(AppPath.ic_minus),
                     ),
                     Text(
-                      '${context.watch<MyCartVm>().count}',
+                      '${myCartVm.listData[index].count}',
                       style: TextStyle(
                         fontSize: 16,
                         color: AppColors.cBlack_50,
@@ -186,7 +188,7 @@ class _MyCartPageState extends State<MyCartPage> with AutomaticKeepAliveClientMi
                     ),
                     GestureDetector(
                       onTap: () {
-                        myCartVm.Increase();
+                        myCartVm.Increase(index);
                       },
                       child: SvgPicture.asset(AppPath.ic_add),
                     ),
