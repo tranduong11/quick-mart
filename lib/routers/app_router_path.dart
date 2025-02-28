@@ -10,4 +10,5 @@ class AppRoutePath {
   static const String myCartPage = '/myCartPage';
   static const String searchWidget = '/searchWidget';
   static const String mainPage = '/mainPage';
+  static const String wishlistsPage = '/wishlistsPage';
 }

@@ -9,6 +9,7 @@ import 'package:quick_mart/screens/main_page/main_page.dart';
 import 'package:quick_mart/screens/onboard_page/onboard_page.dart';
 import 'package:quick_mart/screens/sign_up_page/sign_up_page.dart';
 import 'package:quick_mart/screens/splashs_page/splash_page.dart';
+import 'package:quick_mart/screens/wishlists_page/wishlists_page.dart';
 
 class AppRouter {
   AppRouter._();
@@ -55,6 +56,8 @@ class AppRouter {
         );
       case AppRoutePath.myCartPage:
         return MyCartPage();
+      case AppRoutePath.wishlistsPage:
+        return WishlistsHome();
       default:
         return SizedBox();
     }
