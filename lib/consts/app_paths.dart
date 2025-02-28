@@ -1,4 +1,5 @@
 class AppPath {
+  /// icons
   static const String ic_splash = 'assets/icons/ic_splash.svg';
   static const String ic_onboard = 'assets/icons/ic_onboard.svg';
   static const String ic_indicator = 'assets/icons/ic_indicator.svg';
@@ -30,7 +31,6 @@ class AppPath {
   static const String ic_item4 = 'assets/icons/ic_item4_categori.png';
   static const String ic_item5 = 'assets/icons/ic_item5_categori.png';
   static const String ic_logout = 'assets/icons/ic_logout.svg';
-
   static const String ic_box = 'assets/icons/ic_box.svg';
   static const String ic_card = 'assets/icons/ic_card.svg';
   static const String ic_receipt = 'assets/icons/ic_receipt.svg';
@@ -40,7 +40,6 @@ class AppPath {
   static const String ic_lock = 'assets/icons/ic_lock.svg';
   static const String ic_mobile = 'assets/icons/ic_mobile.svg';
   static const String ic_chevron = 'assets/icons/ic_chevron.svg';
-
   static const String ic_cancel = 'assets/icons/ic_cancel.svg';
   static const String ic_search = 'assets/icons/ic_search.svg';
   static const String ic_setting = 'assets/icons/ic_setting.svg';
@@ -53,7 +52,7 @@ class AppPath {
   static const String ic_trash = 'assets/icons/ic_trash.svg';
   static const String ic_success = 'assets/icons/ic_success.svg';
 
-  // images
+  /// images
   static const String img_onboard = 'assets/images/img_onboard.png';
   static const String img_onboarding = 'assets/images/img_onboarding.png';
   static const String img_onboardingg = 'assets/images/img_onboardingg.png';
@@ -72,4 +71,8 @@ class AppPath {
   static const String img_item11 = 'assets/images/img_item11.png';
   static const String img_rectangle = 'assets/images/img_rectangle.png';
   static const String img_rectangle_cart = 'assets/images/img_rectangle_cart.png';
+
+  /// images animation
+  static const String img_animation_1 = 'assets/images_animation/images_animation_1.json';
+  static const String img_animation_2 = 'assets/images_animation/loading_animation.json';
 }

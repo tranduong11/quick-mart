@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_mart/data_local/hive_db.dart';
+import 'package:quick_mart/frebase/firebase_messaging/firebase_messaging.dart';
 import 'package:quick_mart/generated/l10n.dart';
 import 'package:quick_mart/providers/profile_provider.dart';
 import 'package:quick_mart/routers/app_routers.dart';
@@ -28,6 +30,7 @@ Future<void> main() async {
   );
   FirebaseFirestore.instance.settings = Settings(persistenceEnabled: true);
   HiveData.instance.initHive();
+  FirebaseMessaging.onBackgroundMessage(FirebaseApi().handlerMessaging);
   runApp(MyApp());
 }
 
@@ -39,8 +42,16 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  FirebaseApi firebaseApi = FirebaseApi();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    firebaseApi.initNotification(context);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
